@@ -1,0 +1,1 @@
+console.log("Al-Bunyan website loaded");
