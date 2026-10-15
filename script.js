@@ -18,12 +18,12 @@ function renderProducts() {
       <h3>${product.name}</h3>
       <p>${product.description}</p>
       <p>السعر ${product.price} دينار</p>
-      <button>اطلب الان</button>
+      <a class="order-btn" href="https://wa.me/${phone}?text=${encodeURIComponent('اريد طلب: ' + product.name)}" target="_blank">اطلب الان</a>
     `;
 
     container.appendChild(box);
   });
-}
+}const phone = "964XXXXXXXXXX"; // 9647811138601
 
 renderProducts();
 
