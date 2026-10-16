@@ -100,3 +100,17 @@ nav a {
 .order-btn:hover {
   background-color: #34495e;
 }
+#categories {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#categories button {
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 4px;
+  border-radius: 5px;
+  cursor: pointer;
+}

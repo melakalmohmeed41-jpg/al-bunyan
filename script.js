@@ -1,12 +1,13 @@
 console.log("Al-Bunyan website loaded");
 
-const phone = "964XXXXXXXXXX"; // 9647811138601
+const phone = "9647811138601"; // 9647811138601
 
 const products = [
-  { id: 1, name: "سلك كهربائي 2.5مم", description: "سلك نحاسي عالي الجودة", price: 5000 },
-  { id: 2, name: "مفتاح انارة مزدوج", description: "مفتاح انارة بلاستيكي متين", price: 3000 },
-  { id: 3, name: "قاطع كهربائي 20 امبير", description: "قاطع اوتوماتيكي يحمي الدائرة", price: 7500 },
-  { id: 4, name: "لمبة LED 12 واط", description: "إنارة موفرة للطاقة", price: 2500 }
+  { id: 1, name: "سلك كهربائي 2.5مم", description: "سلك نحاسي عالي الجودة", price: 5000 ,  category: "أسلاك" },
+  { id: 2, name: "مفتاح انارة مزدوج", description: "مفتاح انارة بلاستيكي متين", price: 3000 , category: "مفاتيح" },
+  { id: 3, name: "قاطع كهربائي 20 امبير", description: "قاطع اوتوماتيكي يحمي الدائرة", price: 7500, category: "قواطع"   },
+  { id: 4, name: "لمبة LED 12 واط", description: "إنارة موفرة للطاقة", price: 2500 , category: "إنارة" }
+
 ];
 
 function renderProducts(list) {
@@ -32,12 +33,24 @@ function renderProducts(list) {
 
 renderProducts(products);
 
+let selectedCategory = "الكل";
+
 const searchInput = document.getElementById("search-input");
 
-searchInput.addEventListener("input", function () {
+function applyFilters() {
   const text = searchInput.value.trim();
   const filtered = products.filter(function (product) {
-    return product.name.includes(text);
+    const matchesText = product.name.includes(text);
+    const matchesCategory = selectedCategory === "الكل" || product.category === selectedCategory;
+    return matchesText && matchesCategory;
   });
   renderProducts(filtered);
+}
+
+searchInput.addEventListener("input", applyFilters);
+document.querySelectorAll("#categories button").forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    selectedCategory = btn.dataset.category;
+    applyFilters();
+  });
 });
