@@ -114,3 +114,13 @@ nav a {
   border-radius: 5px;
   cursor: pointer;
 }
+.no-results {
+  width: 100%;
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 18px;
+}
+main h2 {
+  width: 100%;
+  text-align: center;
+}

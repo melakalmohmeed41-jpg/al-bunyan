@@ -13,8 +13,12 @@ const products = [
 function renderProducts(list) {
   const container = document.getElementById("products-container");
   container.innerHTML = "<h2>منتجاتنا</h2>";
-
+    if (list.length === 0) {
+    container.innerHTML += "<p class='no-results'>لا توجد منتجات مطابقة لبحثك</p>";
+    return;
+  }
   list.forEach(function (product) {
+  
     const box = document.createElement("div");
     box.className = "product";
 
