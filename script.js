@@ -2,13 +2,16 @@ console.log("Al-Bunyan website loaded");
 
 const phone = "9647811138601"; // 9647811138601
 
-const products = [
-  { id: 1, name: "سلك كهربائي 2.5مم", description: "سلك نحاسي عالي الجودة", price: 5000 ,  category: "أسلاك" },
-  { id: 2, name: "مفتاح انارة مزدوج", description: "مفتاح انارة بلاستيكي متين", price: 3000 , category: "مفاتيح" },
-  { id: 3, name: "قاطع كهربائي 20 امبير", description: "قاطع اوتوماتيكي يحمي الدائرة", price: 7500, category: "قواطع"   },
-  { id: 4, name: "لمبة LED 12 واط", description: "إنارة موفرة للطاقة", price: 2500 , category: "إنارة" }
+let products = [];
 
-];
+fetch("products.json")
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    products = data;
+    renderProducts(products);
+  });
 
 function renderProducts(list) {
   const container = document.getElementById("products-container");
@@ -34,8 +37,6 @@ function renderProducts(list) {
     container.appendChild(box);
   });
 }
-
-renderProducts(products);
 
 let selectedCategory = "الكل";
 
