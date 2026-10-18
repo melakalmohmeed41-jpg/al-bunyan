@@ -4,7 +4,13 @@ const phone = "9647811138601"; // 9647811138601
 
 let products = [];
 
-fetch("http://localhost:3000/api/products")
+const isLocal = location.hostname === "127.0.0.1" || location.hostname === "localhost";
+
+const API_URL = isLocal
+  ? "http://localhost:3000/api/products"
+  : "products.json";
+
+fetch(API_URL)
   .then(function (response) {
     return response.json();
   })
