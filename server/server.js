@@ -1,8 +1,9 @@
 const express = require("express");
-const app = express();
+const app = express();const cors = require("cors");
+app.use(cors());
 
 app.get("/", function (req, res) {
-  res.send("مرحبا من سيرفر  ملك  البنيان");
+  res.send("مرحبا من سيرفر البنيان");
 });
 const fs = require("fs");
 const path = require("path");

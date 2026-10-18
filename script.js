@@ -4,7 +4,7 @@ const phone = "9647811138601"; // 9647811138601
 
 let products = [];
 
-fetch("products.json")
+fetch("http://localhost:3000/api/products")
   .then(function (response) {
     return response.json();
   })
