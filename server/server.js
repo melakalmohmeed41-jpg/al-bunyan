@@ -1,5 +1,6 @@
 const express = require("express");
-const app = express();const cors = require("cors");
+const app = express();
+const cors = require("cors");
 app.use(cors());
 
 app.get("/", function (req, res) {
@@ -7,11 +8,11 @@ app.get("/", function (req, res) {
 });
 const fs = require("fs");
 const path = require("path");
+const db = require("./db");
 
 app.get("/api/products", function (req, res) {
-  const filePath = path.join(__dirname, "..", "products.json");
-  const data = fs.readFileSync(filePath, "utf8");
-  res.json(JSON.parse(data));
+    const products = db.prepare("SELECT * FROM products").all();
+  res.json(products);
 });
 
 app.listen(3000, function () {
