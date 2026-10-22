@@ -19,8 +19,9 @@ function requireAdmin(req, res, next) {
   if (!ADMIN_KEY || req.headers["x-admin-key"] !== ADMIN_KEY) {
     return res.status(401).json({ error: "غير مصرح" });
   }
-  next();
+  next() ;
 }
+
 app.post("/api/products", requireAdmin, function (req, res) {
   const { name, description, price, category } = req.body;
   const result = db
