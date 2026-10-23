@@ -16,40 +16,83 @@
   <button type="submit">إضافة المنتج</button>
 </form>
 <p id="message"></p>
+<h2>المنتجات الحالية</h2>
+<ul id="productList"></ul>
 <script>
   const form = document.getElementById("productForm");
   const message = document.getElementById("message");
+  const productList = document.getElementById("productList");
+
   form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  message.textContent = "جاري الإرسال...";  const product = {
-    name: document.getElementById("name").value,
-    description: document.getElementById("description").value,
-    price: Number(document.getElementById("price").value),
-    category: document.getElementById("category").value
-  };
-  const adminKey = document.getElementById("adminKey").value;
+    e.preventDefault();
+    message.textContent = "جاري الإرسال...";
+    const product = {
+      name: document.getElementById("name").value,
+      description: document.getElementById("description").value,
+      price: Number(document.getElementById("price").value),
+      category: document.getElementById("category").value
+    };
+    const adminKey = document.getElementById("adminKey").value;
     fetch("http://localhost:3000/api/products", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-admin-key": adminKey
-    },
-    body: JSON.stringify(product)
-  })
-    .then(function (res) {
-      if (!res.ok) {
-        throw new Error("فشل الإرسال: " + res.status);
-      }
-      return res.json();
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-admin-key": adminKey
+      },
+      body: JSON.stringify(product)
     })
-    .then(function (data) {
-      message.textContent = "تمت إضافة المنتج برقم " + data.id;
-      form.reset();
-    })
-    .catch(function (err) {
-      message.textContent = err.message;
-    });
-});
+      .then(function (res) {
+        if (!res.ok) {
+          throw new Error("فشل الإرسال: " + res.status);
+        }
+        return res.json();
+      })
+      .then(function (data) {
+        message.textContent = "تمت إضافة المنتج برقم " + data.id;
+        form.reset();
+        loadProducts();
+      })
+      .catch(function (err) {
+        message.textContent = err.message;
+      });
+  });
+
+  function loadProducts() {
+    fetch("http://localhost:3000/api/products")
+      .then(function (res) {
+        return res.json();
+      })
+      .then(function (products) {
+        productList.innerHTML = "";
+        products.forEach(function (p) {
+          const li = document.createElement("li");
+          li.textContent = p.id + " - " + p.name + " - " + p.price;
+          const btn = document.createElement("button");
+          btn.textContent = "حذف";
+          btn.addEventListener("click", function () {
+            const adminKey = document.getElementById("adminKey").value;
+            fetch("http://localhost:3000/api/products/" + p.id, {
+              method: "DELETE",
+              headers: { "x-admin-key": adminKey }
+            })
+              .then(function (res) {
+                if (!res.ok) {
+                  throw new Error("فشل الحذف: " + res.status);
+                }
+                message.textContent = "تم حذف المنتج رقم " + p.id;
+                loadProducts();
+              })
+              .catch(function (err) {
+                message.textContent = err.message;
+              });
+          });
+          li.appendChild(btn);
+          productList.appendChild(li);
+        });
+      });
+  }
+
+  loadProducts();
 </script>
 </body>
 </html>
