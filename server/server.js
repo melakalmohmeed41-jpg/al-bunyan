@@ -36,6 +36,16 @@ app.delete("/api/products/:id", requireAdmin, function (req, res) {
   }
   res.json({ deleted: req.params.id });
 });
+app.put("/api/products/:id", requireAdmin, function (req, res) {
+  const { name, description, price, category } = req.body;
+  const result = db
+    .prepare("UPDATE products SET name = ?, description = ?, price = ?, category = ? WHERE id = ?")
+    .run(name, description, price, category, req.params.id);
+  if (result.changes === 0) {
+    return res.status(404).json({ error: "المنتج غير موجود" });
+  }
+  res.json({ id: Number(req.params.id), name, description, price, category });
+});
 app.listen(3000, function () {
   console.log("Server running on http://localhost:3000");
 });
