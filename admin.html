@@ -14,7 +14,7 @@
   <input type="number" id="price" placeholder="السعر" required>
   <input type="text" id="category" placeholder="التصنيف">
   <input type="password" id="adminKey" placeholder="كلمة السر" required>
-  <button type="submit">إضافة المنتج</button>
+  <button type="submit" id="submitBtn">إضافة المنتج</button>
 </form>
 <p id="message"></p>
 <h2>المنتجات الحالية</h2>
@@ -24,6 +24,7 @@
   let editingId = null;
   const message = document.getElementById("message");
   const productList = document.getElementById("productList");
+  const submitBtn = document.getElementById("submitBtn");
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -35,11 +36,6 @@
       category: document.getElementById("category").value
     };
     const adminKey = document.getElementById("adminKey").value;
-        const isEditing = editingId !== null;
-    const url = isEditing
-      ? "http://localhost:3000/api/products/" + editingId
-      : "http://localhost:3000/api/products";
-    const method = isEditing ? "PUT" : "POST";
     fetch(url, {
       method: method,
       headers: {
@@ -56,9 +52,10 @@
       })
       .then(function (data) {
         message.textContent = isEditing
-  ? "تم تعديل المنتج رقم " + data.id
-  : "تمت إضافة المنتج برقم " + data.id;
+       ? "تم تعديل المنتج رقم " + data.id
+       : "تمت إضافة المنتج برقم " + data.id;
 editingId = null;
+        submitBtn.textContent = "إضافة المنتج";
 form.reset();
 loadProducts();
       })
@@ -109,6 +106,7 @@ editBtn.addEventListener("click", function () {
   document.getElementById("price").value = p.price;
   document.getElementById("category").value = p.category;
   editingId = p.id;
+    submitBtn.textContent = "حفظ التعديل";
   message.textContent = "تعديل المنتج رقم " + p.id;
 });
 li.appendChild(editBtn);
