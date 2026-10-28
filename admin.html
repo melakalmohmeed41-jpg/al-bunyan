@@ -21,6 +21,7 @@
 <ul id="productList"></ul>
 <script>
   const form = document.getElementById("productForm");
+  let editingId = null;
   const message = document.getElementById("message");
   const productList = document.getElementById("productList");
 
@@ -34,8 +35,13 @@
       category: document.getElementById("category").value
     };
     const adminKey = document.getElementById("adminKey").value;
-    fetch("http://localhost:3000/api/products", {
-      method: "POST",
+        const isEditing = editingId !== null;
+    const url = isEditing
+      ? "http://localhost:3000/api/products/" + editingId
+      : "http://localhost:3000/api/products";
+    const method = isEditing ? "PUT" : "POST";
+    fetch(url, {
+      method: method,
       headers: {
         "Content-Type": "application/json",
         "x-admin-key": adminKey
@@ -49,9 +55,12 @@
         return res.json();
       })
       .then(function (data) {
-        message.textContent = "تمت إضافة المنتج برقم " + data.id;
-        form.reset();
-        loadProducts();
+        message.textContent = isEditing
+  ? "تم تعديل المنتج رقم " + data.id
+  : "تمت إضافة المنتج برقم " + data.id;
+editingId = null;
+form.reset();
+loadProducts();
       })
       .catch(function (err) {
         message.textContent = err.message;
@@ -72,6 +81,11 @@
           btn.textContent = "حذف";
           btn.addEventListener("click", function () {
             const adminKey = document.getElementById("adminKey").value;
+            const isEditing = editingId !== null;
+const url = isEditing
+  ? "http://localhost:3000/api/products/" + editingId
+  : "http://localhost:3000/api/products";
+const method = isEditing ? "PUT" : "POST";
             fetch("http://localhost:3000/api/products/" + p.id, {
               method: "DELETE",
               headers: { "x-admin-key": adminKey }
@@ -87,6 +101,17 @@
                 message.textContent = err.message;
               });
           });
+          const editBtn = document.createElement("button");
+editBtn.textContent = "تعديل";
+editBtn.addEventListener("click", function () {
+  document.getElementById("name").value = p.name;
+  document.getElementById("description").value = p.description;
+  document.getElementById("price").value = p.price;
+  document.getElementById("category").value = p.category;
+  editingId = p.id;
+  message.textContent = "تعديل المنتج رقم " + p.id;
+});
+li.appendChild(editBtn);
           li.appendChild(btn);
           productList.appendChild(li);
         });
