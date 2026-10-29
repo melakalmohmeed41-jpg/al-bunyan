@@ -45,3 +45,15 @@ button:hover {
   color: #1a3c5e;
   font-weight: bold;
 }
+.edit-btn {
+  margin-inline-start: auto;
+}
+
+.delete-btn {
+  background-color: #c0392b;
+  margin-inline-start: 8px;
+}
+
+.delete-btn:hover {
+  background-color: #e74c3c;
+}

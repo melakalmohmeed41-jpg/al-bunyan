@@ -76,6 +76,7 @@ loadProducts();
           li.textContent = p.id + " - " + p.name + " - " + p.price;
           const btn = document.createElement("button");
           btn.textContent = "حذف";
+          btn.className = "delete-btn";
           btn.addEventListener("click", function () {
             const adminKey = document.getElementById("adminKey").value;
             const isEditing = editingId !== null;
@@ -100,6 +101,7 @@ const method = isEditing ? "PUT" : "POST";
           });
           const editBtn = document.createElement("button");
 editBtn.textContent = "تعديل";
+editBtn.className = "edit-btn";
 editBtn.addEventListener("click", function () {
   document.getElementById("name").value = p.name;
   document.getElementById("description").value = p.description;
