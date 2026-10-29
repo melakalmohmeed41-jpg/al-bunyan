@@ -13,6 +13,7 @@
   <input type="text" id="description" placeholder="الوصف">
   <input type="number" id="price" placeholder="السعر" required>
   <input type="text" id="category" placeholder="التصنيف">
+  <input type="text" id="image" placeholder="رابط الصورة">
   <input type="password" id="adminKey" placeholder="كلمة السر" required>
   <button type="submit" id="submitBtn">إضافة المنتج</button>
 </form>
@@ -33,9 +34,15 @@
       name: document.getElementById("name").value,
       description: document.getElementById("description").value,
       price: Number(document.getElementById("price").value),
-      category: document.getElementById("category").value
+            category: document.getElementById("category").value,
+      image: document.getElementById("image").value
     };
     const adminKey = document.getElementById("adminKey").value;
+        const isEditing = editingId !== null;
+    const url = isEditing
+      ? "http://localhost:3000/api/products/" + editingId
+      : "http://localhost:3000/api/products";
+    const method = isEditing ? "PUT" : "POST";
     fetch(url, {
       method: method,
       headers: {
@@ -107,6 +114,7 @@ editBtn.addEventListener("click", function () {
   document.getElementById("description").value = p.description;
   document.getElementById("price").value = p.price;
   document.getElementById("category").value = p.category;
+  document.getElementById("image").value = p.image || "";
   editingId = p.id;
     submitBtn.textContent = "حفظ التعديل";
   message.textContent = "تعديل المنتج رقم " + p.id;
