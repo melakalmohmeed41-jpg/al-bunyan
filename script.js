@@ -32,8 +32,12 @@ function renderProducts(list) {
     box.className = "product";
 
     const message = encodeURIComponent("اريد طلب: " + product.name);
+        const imageHtml = product.image
+      ? `<img src="${product.image}" alt="${product.name}">`
+      : "";
 
-    box.innerHTML = `
+        box.innerHTML = `
+      ${imageHtml}
       <h3>${product.name}</h3>
       <p>${product.description}</p>
       <p>السعر ${product.price} دينار</p>
