@@ -33,14 +33,14 @@ function renderProducts(list) {
 
     const message = encodeURIComponent("اريد طلب: " + product.name);
         const imageHtml = product.image
-      ? `<img src="${product.image}" alt="${product.name}">`
+     ? `<img src="${product.image}" alt="${product.name}" onerror="this.remove()">`
       : "";
 
         box.innerHTML = `
       ${imageHtml}
       <h3>${product.name}</h3>
       <p>${product.description}</p>
-      <p>السعر ${product.price} دينار</p>
+      <p class="price">السعر ${product.price} دينار</p>
       <a class="order-btn" href="https://wa.me/${phone}?text=${message}" target="_blank">اطلب الان</a>
     `;
     container.appendChild(box);
