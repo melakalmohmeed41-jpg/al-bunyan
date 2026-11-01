@@ -74,11 +74,23 @@ function applyFilters() {
 }
 
 searchInput.addEventListener("input", applyFilters);
-document.querySelectorAll("#categories button").forEach(function (btn) {
+const categoryButtons = document.querySelectorAll("#categories button");
+
+categoryButtons.forEach(function (btn) {
   btn.addEventListener("click", function () {
     selectedCategory = btn.dataset.category;
+    categoryButtons.forEach(function (b) {
+      b.classList.remove("active");
+    });
+    btn.classList.add("active");
     applyFilters();
   });
+});
+
+categoryButtons.forEach(function (b) {
+  if (b.dataset.category === selectedCategory) {
+    b.classList.add("active");
+  }
 });
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightbox-img");
