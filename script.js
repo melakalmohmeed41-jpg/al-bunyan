@@ -16,7 +16,9 @@ fetch(API_URL)
     return response.json();
   })
   .then(function (data) {
-    products = data;
+    products = data.sort(function (a, b) {
+      return (b.image ? 1 : 0) - (a.image ? 1 : 0);
+    });
     renderProducts(products);
   });
 
